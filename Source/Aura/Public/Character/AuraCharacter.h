@@ -1,4 +1,4 @@
-// Copy right GeetesNC
+// Copyright GeeteshNC
 
 #pragma once
 
@@ -13,5 +13,8 @@ UCLASS()
 class AURA_API AAuraCharacter : public AAuraCharacterBase
 {
 	GENERATED_BODY()
+public:
+	AAuraCharacter();
+	
 	
 };

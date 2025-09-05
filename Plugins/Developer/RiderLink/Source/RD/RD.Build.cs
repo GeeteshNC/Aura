@@ -18,9 +18,7 @@ public class RD : ModuleRules
 		bEnforceIWYU = false;
 #endif
 
-#if UE_5_6_OR_LATER
-		CppStandard = CppStandardVersion.Cpp20;
-#elif UE_4_22_OR_LATER
+#if UE_4_22_OR_LATER
 		CppStandard = CppStandardVersion.Cpp17;
 #endif
 
@@ -30,17 +28,11 @@ public class RD : ModuleRules
 		PCHUsage = PCHUsageMode.NoSharedPCHs;
 #endif
 
-#if UE_5_6_OR_LATER
-		CppCompileWarningSettings.ShadowVariableWarningLevel = WarningLevel.Off;
-#elif UE_4_24_OR_LATER
-		ShadowVariableWarningLevel = WarningLevel.Off;
-#else
-		bEnableShadowVariableWarnings = false;
-#endif
-
 #if UE_4_24_OR_LATER
+		ShadowVariableWarningLevel = WarningLevel.Off;
 		bUseUnity = false;
 #else
+		bEnableShadowVariableWarnings = false;
 		bFasterWithoutUnity = true;
 #endif
 
