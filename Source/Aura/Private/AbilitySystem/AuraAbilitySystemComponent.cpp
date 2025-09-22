@@ -4,6 +4,7 @@
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "Actor/AuraEffectActor.h"
 
 void UAuraAbilitySystemComponent::AbilityCharacterInfoSet()
 {
@@ -13,9 +14,12 @@ void UAuraAbilitySystemComponent::AbilityCharacterInfoSet()
 
 
 void UAuraAbilitySystemComponent::EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle)
-
 {
+FGameplayTagContainer TagContainer;
+EffectSpec.GetAllAssetTags(TagContainer);
+	EffectAssetTags.Broadcast(TagContainer);
+	
 
-	GEngine->AddOnScreenDebugMessage(-1, 8.f, FColor::Red, TEXT("Effect Applied"));
-		
+	
+	
 }
