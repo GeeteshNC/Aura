@@ -1,4 +1,4 @@
-// Copy right GeetesNC
+// Copy right Geetes NC
 
 
 #include "UI/WidgetController/OverlayWidgetController.h"
