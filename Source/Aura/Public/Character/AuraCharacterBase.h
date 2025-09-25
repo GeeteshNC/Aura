@@ -9,6 +9,7 @@
 
 class UAbilitySystemComponent;
 class UAttributeSet;
+class UGameplayEffect;
 
 
 
@@ -36,8 +37,10 @@ protected:
 
 	virtual void InitAbilityActorInfo() {};
 	
+    UPROPERTY(BlueprintReadOnly,EditAnywhere, Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
 
-	
+	void InitializePrimaryAttributes() const;
 
 
 };
