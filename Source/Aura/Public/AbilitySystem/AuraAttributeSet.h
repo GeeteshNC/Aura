@@ -13,6 +13,9 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+
+
+
 class ACharacter;
 
 USTRUCT()
@@ -42,7 +45,10 @@ FGameplayEffectContextHandle EffectContextHandle;
 	
 	
 };
-
+//typedef is specific to the FGameplayAttribute() signature , but TStaticFuncPtr is Generic to any signature chosen
+//typedef TBaseStaticDelegateInstance<FGameplayAttribute(),FDefaultDelegateUserPolicy>::FFuncPtr FAttributeFuncPointer;
+template <class T>
+using TStaticFuncPtr = typename TBaseStaticDelegateInstance<T,FDefaultDelegateUserPolicy>::FFuncPtr;
 
 
 UCLASS()
@@ -59,6 +65,10 @@ public:
 
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
 
+
+	TMap<FGameplayTag, TStaticFuncPtr<FGameplayAttribute()>> TagsToAttributes;
+
+	
     /**Primary Attributes**/
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing=OnRep_Strength, Category="Primary Attributes")
