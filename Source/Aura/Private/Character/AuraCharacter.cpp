@@ -30,6 +30,7 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 	//init ability actor in for for the server
 	InitAbilityActorInfo();
+	AddCharacterAbilities();
 	
 }
 
