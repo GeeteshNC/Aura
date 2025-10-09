@@ -1,7 +1,8 @@
 // Copy right GeetesNC
 
 #include "Player/AuraPlayerController.h"
-
+#include "GameFramework/Pawn.h"
+#include "DrawDebugHelpers.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AuraGameplayTags.h"
 #include "EnhancedInputSubsystems.h"
@@ -9,6 +10,8 @@
 #include "Components/SplineComponent.h"
 #include "Engine/LocalPlayer.h"
 #include "Input/AuraInputComponent.h"
+#include  "NavigationSystem.h"
+#include  "Navigationpath.h"
 #include "Interaction/EnemyInterface.h"
 
 
@@ -91,25 +94,67 @@ void AAuraPlayerController::CursorTrace()
 
 	void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 	{
-if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
-{
-	bTargeting=ThisActor? true:false;
-	bAutoRunning=false;
-}
-	
-	
+         if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+      {
+	     bTargeting=ThisActor? true:false;
+	     bAutoRunning=false;
+      }
+		
 	}
+
 
 	void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
-	if(GetASC()==nullptr)return;
-	
-	GetASC()->AbilityLInputTagReleased(InputTag);
+		if (GetASC())
+		{
+			GetASC()->AbilityLInputTagReleased(InputTag);
+		      	      			
+		}
+		return;
 	}
-	void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
+
+	if (bTargeting)
+	{
+		if (GetASC())
+		{
+			GetASC()->AbilityLInputTagReleased(InputTag);
+			
+		}
+	}
+	else
+	{
+		APawn* ControlledPawn=GetPawn();
+		if (FollowTime<=ShortPressThreshold && ControlledPawn)
+			
+		{
+			if (UNavigationPath* NavPath= UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(),CachedDestination ))
+			{
+				Spline->ClearSplinePoints();
+
+				for (const FVector& PointLoc : NavPath->PathPoints)
+				{
+					Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+					DrawDebugSphere(GetWorld(),PointLoc,8.f, 8, FColor::Green, false, 5.f);
+				}
+
+				bAutoRunning=true;
+				
+				
+			}
+		}
+		FollowTime=0.f;
+		bTargeting=false;
+		
+	}
+}
+
+
+    void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 	{
 
-	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+	    if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
 		if (GetASC())
 		{
@@ -120,10 +165,10 @@ if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 		
 	
 	}
-	if (bTargeting)
-	{
-    if (GetASC())
-    {
+	      if (bTargeting)
+	   {
+           if (GetASC())
+       {
     	GetASC()->AbilityInputTagHeld(InputTag);
     }
 		
