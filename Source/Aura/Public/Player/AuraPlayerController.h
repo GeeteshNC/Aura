@@ -50,6 +50,8 @@ private:
 	TScriptInterface<IEnemyInterface> LastActor;
 	TScriptInterface<IEnemyInterface> ThisActor;
 
+	FHitResult CursorHit;
+
 	void AbilityInputTagPressed (FGameplayTag InputTag);
 	void AbilityInputTagReleased (FGameplayTag InputTag);
 	void AbilityInputTagHeld (FGameplayTag InputTag);
@@ -73,7 +75,8 @@ TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
 	float AutoRunAcceptanceRadius= 50.f;
 	UPROPERTY(VisibleAnywhere)
 TObjectPtr<USplineComponent> Spline;
-	
+
+	void AutoRun();
 	
 	
 	
