@@ -20,6 +20,7 @@ AAuraCharacterBase::AAuraCharacterBase()
 
 UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 {
+	check(Weapon);
 	return AbilitySystemComponent;
 }
 
@@ -27,6 +28,14 @@ UAbilitySystemComponent* AAuraCharacterBase::GetAbilitySystemComponent() const
 void AAuraCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+	
+}
+
+FVector AAuraCharacterBase::GetCombatSocketLocation()
+{
+	return Weapon->GetSocketLocation(WeaponTipSocketName);
+	
+
 	
 }
 
