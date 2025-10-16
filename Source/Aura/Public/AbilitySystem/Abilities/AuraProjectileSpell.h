@@ -7,7 +7,8 @@
 #include "AuraProjectileSpell.generated.h"
 
 
-class AAuraProjectile; 
+class AAuraProjectile;
+class UGameplayEffect;
 
 
 UCLASS()
@@ -25,5 +26,8 @@ class AURA_API UAuraProjectileSpell : public UAuraGameplayAbility
 
 	UPROPERTY(EditAnywhere,BluePrintReadOnly)
 	TSubclassOf<AAuraProjectile> ProjectileClass;
+
+	UPROPERTY(EditDefaultsOnly,BluePrintReadOnly)
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
 	
 };
