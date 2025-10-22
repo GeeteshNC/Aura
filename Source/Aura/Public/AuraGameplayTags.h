@@ -46,7 +46,7 @@ public:
 	
 	
 	
-protected:
+FGameplayTag Damage;
 	
 	
 private:

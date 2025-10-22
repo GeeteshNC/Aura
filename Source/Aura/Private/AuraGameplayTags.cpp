@@ -95,6 +95,10 @@ FString("InputTag for 3 Key"));
 FName("InputTag.4"),
 FString("InputTag for 4 Key"));
 
+	GameplayTags.Damage=UGameplayTagsManager::Get().AddNativeGameplayTag(
+FName("Damage"),
+FString("Damage"));
+
 	
 	
 	
