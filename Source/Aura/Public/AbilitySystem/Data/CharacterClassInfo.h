@@ -11,7 +11,7 @@ class UGameplayEffect;
 UENUM(BlueprintType)
 enum class ECharacterClass : uint8
 {
- Elementalist,
+    Elementalist,
 	Warrior,
 	Ranger
 	
@@ -46,7 +46,7 @@ public:
 	UPROPERTY(EditDefaultsOnly,Category="ClassCommonDefaults")
 	TSubclassOf<UGameplayEffect> VitalAttributes;
 
-	FCharacterClassDefaultInfo GetDefaultInfoForClass(ECharacterClass CharacterClass) ;
+	FCharacterClassDefaultInfo GetClassDefaultInfo(ECharacterClass CharacterClass) ;
 };
 
 
