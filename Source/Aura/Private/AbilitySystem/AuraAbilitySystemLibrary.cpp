@@ -103,6 +103,20 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 	
 }
 
+void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextgObject, UAbilitySystemComponent* ASC)
+{
+	AAuraGameModeBase* AuraGameMode=Cast <AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextgObject));
+	if (AuraGameMode==nullptr) return;
+
+	UCharacterClassInfo* CharacterClassInfo= AuraGameMode->CharacterClassInfo;
+	for (TSubclassOf<UGameplayAbility> Abilityclass: CharacterClassInfo->CommonAbilities)
+	{
+		FGameplayAbilitySpec AbilitySpec=FGameplayAbilitySpec(Abilityclass,1);
+		ASC->GiveAbility(AbilitySpec);
+	}
+	
+}
+
 /**🎯 What is GameplayEffectSpec?
 In Unreal Engine's GAS, a GameplayEffectSpec is a runtime instance of a UGameplayEffect class. Think of it as the configured blueprint of an effect that’s ready to be applied to one or more targets.
 
