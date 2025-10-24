@@ -69,16 +69,12 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
 void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject,
 	ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
-	AAuraGameModeBase* AuraGameMode=Cast <AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-	if (AuraGameMode==nullptr) return;
-
+	
 	AActor* AvatarActor=ASC->GetAvatarActor();
 
+	UCharacterClassInfo* CharacterClassInfo= GetCharacterClassInfo(WorldContextObject);
 	FGameplayEffectContextHandle PrimaryAttributesContextHandle= ASC->MakeEffectContext();
 	PrimaryAttributesContextHandle.AddSourceObject(AvatarActor);
-
-
-	UCharacterClassInfo* CharacterClassInfo= AuraGameMode->CharacterClassInfo;
 	FCharacterClassDefaultInfo ClassDefaultInfo=CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
 	
 
@@ -103,18 +99,24 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 	
 }
 
-void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextgObject, UAbilitySystemComponent* ASC)
+void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
 {
-	AAuraGameModeBase* AuraGameMode=Cast <AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextgObject));
-	if (AuraGameMode==nullptr) return;
-
-	UCharacterClassInfo* CharacterClassInfo= AuraGameMode->CharacterClassInfo;
+	UCharacterClassInfo* CharacterClassInfo= GetCharacterClassInfo(WorldContextObject);
 	for (TSubclassOf<UGameplayAbility> Abilityclass: CharacterClassInfo->CommonAbilities)
 	{
 		FGameplayAbilitySpec AbilitySpec=FGameplayAbilitySpec(Abilityclass,1);
 		ASC->GiveAbility(AbilitySpec);
 	}
 	
+}
+
+UCharacterClassInfo* UAuraAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
+{
+
+	AAuraGameModeBase* AuraGameMode=Cast <AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+	if (AuraGameMode==nullptr) return nullptr;
+
+	return AuraGameMode->CharacterClassInfo;
 }
 
 /**🎯 What is GameplayEffectSpec?
